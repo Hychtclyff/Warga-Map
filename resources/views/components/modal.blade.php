@@ -1,6 +1,11 @@
 @props(['selectedDetail' => null])
 <div x-show="{{ $attributes->get('x-show') }}" class="relative z-10" aria-labelledby="modal-title" role="dialog"
-    aria-modal="true">
+    @click="isOpen = false" aria-modal="true" x-transition:enter="ease-out duration-500"
+    x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-50"
+    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="ease-in duration-200"
+    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-50">
+    >
+
     <!--
       Background backdrop, show/hide based on modal state.
   
@@ -14,7 +19,7 @@
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true">
     </div>
 
-    <div class="fixed inset-0 z-10 w-screen overflow-y-auto" @click="isOpen = !isOpen">
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <!--
           Modal panel, show/hide based on modal state.
