@@ -38,3 +38,5 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/dashboard/delete/{id}', [AddressController::class, 'destroy'])->name('address.destroy');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
+
+Route::get('address/search', [AddressController::class, 'search'])->name('search');

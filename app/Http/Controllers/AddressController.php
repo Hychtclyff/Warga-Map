@@ -44,7 +44,7 @@ class AddressController extends Controller
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:10240', // Maksimal 10MB
             'home_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:10240', // Maksimal 10MB
             'link_house' => 'required|string|max:255',
-            
+
         ]);
 
 
@@ -163,5 +163,25 @@ class AddressController extends Controller
         $address->delete();
 
         return redirect()->route('dashboard')->with('success', 'Address deleted successfully.');
+    }
+
+    public function search(Request $request)
+    {
+        // Ambil input pencarian
+        $query = $request->input('search');
+
+        // Lakukan pencarian data di model (misalnya model 'addresses' sebagai contoh)
+        // Sesuaikan model sesuai dengan kebutuhan data yang ingin dicari
+        $results = addresses::where('first_name', 'LIKE', "%{$query}%")
+            ->orWhere('last_name', 'LIKE', "%{$query}%")
+            ->get();
+
+        // Cek apakah ada hasil pencarian
+        if ($results->count() > 0) {
+            return view('addresses', ['data' => $results]);
+        }
+
+        // Kembalikan jika tidak ada hasil dengan pesan error
+        return back()->with('error', 'No results found. Please try a different keyword.');
     }
 }

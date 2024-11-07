@@ -4,17 +4,34 @@
             <div class="header text-3xl font-bold">
                 <p>Address Details of Our Residents</p>
             </div>
-            <div class="search flex gap-3">
-                <input t ype="text" name="price" id="price" placeholder="Search"
-                    class="block group rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
-                <button class="bg-gray-800 p-2 rounded-full hover:animate-spin border border-gray-800 transition ">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
-                        fill="#ffff">
-                        <path
-                            d="M792-120.67 532.67-380q-30 25.33-69.64 39.67Q423.39-326 378.67-326q-108.44 0-183.56-75.17Q120-476.33 120-583.33t75.17-182.17q75.16-75.17 182.5-75.17 107.33 0 182.16 75.17 74.84 75.17 74.84 182.27 0 43.23-14 82.9-14 39.66-40.67 73l260 258.66-48 48Zm-414-272q79.17 0 134.58-55.83Q568-504.33 568-583.33q0-79-55.42-134.84Q457.17-774 378-774q-79.72 0-135.53 55.83-55.8 55.84-55.8 134.84t55.8 134.83q55.81 55.83 135.53 55.83Z" />
-                    </svg>
-                </button>
-            </div>
+
+            <form action="{{ route('search') }}" method="GET">
+                @if (session('error'))
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'No Results Found!',
+                                text: `{!! session('error') !!}`,
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                        });
+                    </script>
+                @endif
+                <div class="search flex gap-3">
+                    <input type="text" name="search" id="price" placeholder="Search"
+                        class="block group rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+                    <button type="submit"
+                        class="bg-gray-800 p-2 rounded-full hover:animate-spin border border-gray-800 transition ">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px"
+                            fill="#ffff">
+                            <path
+                                d="M792-120.67 532.67-380q-30 25.33-69.64 39.67Q423.39-326 378.67-326q-108.44 0-183.56-75.17Q120-476.33 120-583.33t75.17-182.17q75.16-75.17 182.5-75.17 107.33 0 182.16 75.17 74.84 75.17 74.84 182.27 0 43.23-14 82.9-14 39.66-40.67 73l260 258.66-48 48Zm-414-272q79.17 0 134.58-55.83Q568-504.33 568-583.33q0-79-55.42-134.84Q457.17-774 378-774q-79.72 0-135.53 55.83-55.8 55.84-55.8 134.84t55.8 134.83q55.81 55.83 135.53 55.83Z" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
         </div>
     </header>
     <main x-data="{ isOpen: false, selectedDetail: {} }">
@@ -28,13 +45,13 @@
                 <div
                     class="card max-h-[27rem]  border border-gray-300 rounded-xl overflow-hidden  shadow-lg bg-transparent backdrop-blur-xl ">
                     <div class=" overflow-hidden ">
-                        <img src="{{ $e['home_photo'] }} " class="card-img h-52 w-full" alt="...">
+                        <img src="/{{ $e['home_photo'] }} " class="card-img h-52 w-full" alt="...">
                     </div>
 
 
                     <div class="card-body p-5 flex flex-col gap-3">
                         <div class="card-title flex items-center gap-3">
-                            <img src="{{ $e['photo'] }}" class="w-10 h-10 rounded-full" alt="">
+                            <img src="/{{ $e['photo'] }}" class="w-10 h-10 rounded-full" alt="">
                             <h5>{{ $e['first_name'] }} {{ $e['last_name'] }}</h5>
                         </div>
                         <p class="card-text">{{ $e['street_address'] }}, City
@@ -47,8 +64,7 @@
         </div>
 
 
-        <x-modal selected-detail="selectedDetail" x-show="isOpen"
-        @click.away="isOpen = false"></x-modal>
+        <x-modal selected-detail="selectedDetail" x-show="isOpen" @click.away="isOpen = false"></x-modal>
 
 
     </main>
